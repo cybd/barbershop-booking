@@ -1,9 +1,15 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+if [[ -f .env ]]; then
+  set -a
+  source .env
+  set +a
+fi
+
 TOKEN="${ALTEGIO_TOKEN:?ALTEGIO_TOKEN is required}"
 BASE="https://api.alteg.io/api/v1"
-LOCATION_ID="${LOCATION_ID:?LOCATION_ID is required}"
+LOCATION_ID="${ALTEGIO_LOCATION_ID:?ALTEGIO_LOCATION_ID is required}"
 ACCEPT="application/vnd.api.v2+json"
 
 auth=(-H "Authorization: Bearer $TOKEN" -H "Accept: $ACCEPT")
@@ -99,6 +105,16 @@ cmd_find_service_name() {
 
 }
 
+date_plus_days() {
+  local offset="$1"
+
+  if date -d "+1 day" +%F >/dev/null 2>&1; then
+    date -d "+$offset day" +%F
+  else
+    date -v+"$offset"d +%F
+  fi
+}
+
 cmd_find_slots() {
   local staff_id="${1:?staff_id is required}"
   local service_id="${2:?service_id is required}"
@@ -116,7 +132,7 @@ cmd_find_slots() {
   for offset in 0 1 2 3 4 5 6; do
     local day times_json times
 
-    day="$(date -I -d "+$offset day")"
+    day="$(date_plus_days "$offset")"
 
     times_json="$(fetch_times "$staff_id" "$service_id" "$day")"
 
