@@ -27,7 +27,7 @@ Examples:
   ./find_slots.sh list
   ./find_slots.sh list 2120229
   ./find_slots.sh list 2120229 10897803
-  ./find_slots.sh book 2120229 10897803 "2026-04-22 15:00" "Sergei Ivanov" "+380501234567"
+  ./find_slots.sh book 2120229 10897803 "2026-04-22 15:00" "Test User" "+380501234567" "test.user@example.com"
 EOF
 }
 

@@ -1,6 +1,7 @@
 # Barbershop Booking CLI
 
 CLI-утиліта для роботи з онлайн-записом через Altegio API.
+https://developer.alteg.io/en/public/openapi
 
 Дозволяє:
 - отримати список майстрів
