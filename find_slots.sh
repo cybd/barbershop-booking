@@ -93,7 +93,7 @@ cmd_list_services() {
 
   service_json="$(fetch_services "$staff_id")"
 
-  jq -r '.data.services[] | "\(.id)\t\(.title)"' <<< "$service_json"
+  jq -r '.data.services[] | "\(.id)\t\(.prepaid_settings.prepaid_full.amount)\t\(.title)"' <<< "$service_json"
 }
 
 cmd_find_service_name() {
@@ -129,9 +129,11 @@ cmd_find_slots() {
 
   staff_name="$(cmd_find_staff_name "$staff_id")"
   service_name="$(cmd_find_service_name "$staff_id" "$service_id")"
+#  service_price="$(cmd_find_service_price "$staff_id" "$service_id")"
 
   echo "Staff: ${staff_name:-UNKNOWN}"
   echo "Service: ${service_name:-UNKNOWN}"
+#  echo "Price: ${service_price:-UNKNOWN}"
   echo
 
   for offset in 0 1 2 3 4 5 6; do
